@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>QR Code</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
+  </head>
+  <body>
+    <div id="qrcode"></div>
+    <script>
+      function generateQRCode() {
+        var url = window.location.href;
+        var queryIndex = url.indexOf('?');
+        if (queryIndex == -1) {
+            alert('No query parameter found.');
+            return;
+        }
+        var query = url.substring(queryIndex + 1);
+        var params = new URLSearchParams(query);
+        var text = params.get('text');
+        if (!text) {
+            alert('No text parameter found.');
+            return;
+        }
+        var typeNumber = 4;
+        var errorCorrectionLevel = 'L';
+        var qr = qrcode(typeNumber, errorCorrectionLevel);
+        qr.addData(text);
+        qr.make();
+        document.getElementById('qrcode').innerHTML = qr.createImgTag();
+      }
+      generateQRCode();
+    </script>
+  </body>
+</html>
